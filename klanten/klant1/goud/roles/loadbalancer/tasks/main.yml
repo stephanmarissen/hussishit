@@ -1,0 +1,23 @@
+---
+- name: Enable Ufw
+  service: name=ufw state=started
+
+- name: Allow Http Traffic
+  ufw: rule=allow port=80 proto=tcp
+
+- name: Install Nginx
+  apt: name=nginx update_cache=yes
+   
+- name: Start Nginx
+  service: name=nginx state=started
+
+- name: Copy Configuration File
+  copy: src=main.yml dest=/etc/nginx/sites-available/default
+
+#- name: Enable Configuration
+#  file: >
+#    dest=/etc/nginx/sites-enabled/default 
+#    src=/etc/nginx/sites-available/default
+
+- name: Restart Nginx
+  service: name=nginx state=restarted

@@ -1,0 +1,12 @@
+---
+- name: Install Apache
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - apache2
+
+- name: Copy index file
+  copy: src=index.php dest=/var/www/html/index.php
+
+- name: turn off nginx
+  service: name=nginx state=stopped
+  notify: restart apache

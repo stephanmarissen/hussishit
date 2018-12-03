@@ -1,0 +1,17 @@
+- name: Configure Webserver With Nginx
+  hosts: webserver
+  sudo: True
+  tasks: 
+    - name: install nginx
+      apt: name=nginx update_cache=yes
+
+- name: copy to webserver 1
+  hosts: web1
+  sudo: True
+  tasks:
+    - name: copy index.html to webserver 1
+      template: src=templates/web1/index.html.j2 dest=/usr/share/nginx/html/index.html
+        mode=0644
+    
+    - name: restart nginx
+      service: name=nginx state=restarted

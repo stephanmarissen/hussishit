@@ -1,0 +1,39 @@
+	
+Vagrant.configure(2) do |config|
+
+ config.ssh.insert_key = false
+
+ config.vm.define "web1" do |web1|
+   web1.vm.box = "ubuntu/trusty64"
+   web1.disksize.size = '2GB'
+   web1.vm.network "forwarded_port", guest: 80, host: 8080
+   web1.vm.network "forwarded_port", guest: 443, host: 8443
+   web1.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh"
+   web1.vm.network "private_network", ip: "192.168.135.111"
+ end
+ config.vm.define "web2" do |web2|
+   web2.vm.box = "ubuntu/trusty64"
+   web2.vm.network "forwarded_port", guest: 80, host: 8081
+   web2.vm.network "forwarded_port", guest: 443, host: 8444
+   web2.vm.network "forwarded_port", guest: 22, host: 2200, id: "ssh"
+   web2.vm.network "private_network", ip: "192.168.135.112"
+ end
+ config.vm.define "loadbalancer" do |loadbalancer|
+   loadbalancer.vm.box = "ubuntu/trusty64"
+#   loadbalancer.disksize.size = "512MB"
+   loadbalancer.vm.network "forwarded_port", guest: 80, host: 8082
+   loadbalancer.vm.network "forwarded_port", guest: 443, host: 8445
+   loadbalancer.vm.network "forwarded_port", guest: 22, host: 2201, id: "ssh"
+   loadbalancer.vm.network "private_network", ip: "192.168.135.101"
+ end
+ config.vm.define "datab1" do |datab1|
+#   datab1.vm.box = "bento/ubuntu-16.10"
+   datab1.vm.box = "ubuntu/trusty64"
+#   datab1.disksize.size = "512MB"
+   datab1.vm.network "forwarded_port", guest: 80, host: 8083
+   datab1.vm.network "forwarded_port", guest: 443, host: 8446
+   datab1.vm.network "forwarded_port", guest: 22, host: 2202, id: "ssh"
+   datab1.vm.network "private_network", ip: "192.168.135.121"
+ end
+end
+

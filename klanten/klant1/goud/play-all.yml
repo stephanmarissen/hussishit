@@ -1,0 +1,30 @@
+---
+- name: Install and configure webservers
+  hosts: webserver
+  become: true
+  roles:
+    - webserver
+
+- name: Install and configure loadbalancer
+  hosts: database
+  become: true
+  roles:
+    - database
+
+- name: Install and configure database
+  hosts: loadbalancer
+  become: true
+  roles:
+    - loadbalancer
+
+- name: copy index to webserver 1
+  hosts: web1
+  become: true
+  tasks:
+    - copy: src=templates/web1/index.html.j2 dest=/var/www/html/index.html
+
+- name: copy index to webserver 2
+  hosts: web2
+  become: true
+  tasks:
+    - copy: src=templates/web2/index.html.j2 dest=/var/www/html/index.html

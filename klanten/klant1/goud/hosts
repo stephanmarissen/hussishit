@@ -1,0 +1,9 @@
+[loadbalancer]
+loadbal1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2201
+
+[database]
+datab1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2202
+
+[webserver]
+web1 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+web2 ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200
